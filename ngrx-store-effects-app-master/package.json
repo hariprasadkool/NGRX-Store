@@ -5,8 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack -p",
-    "build:dev":
-      "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
+    "build:dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
     "build:production": "npm run clean && npm run build",
     "clean": "rimraf build",
     "start": "npm run build:dev",
@@ -65,6 +64,7 @@
     "rxjs": "5.5.2",
     "ts-helpers": "1.1.2",
     "tslib": "1.8.0",
+    "yarn": "^1.5.1",
     "zone.js": "0.8.18"
   }
 }
