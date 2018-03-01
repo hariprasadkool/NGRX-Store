@@ -49,7 +49,8 @@ export class ProductsComponent implements OnInit {
       this.pizzas = state;
       console.log(state);
     });
-    this.store.dispatch(new fromStore.LoadPizza() )
+    this.store.dispatch(new fromStore.LoadPizza() );
+    this.store.dispatch(new fromStore.LoadToppings() )
     //the pizzas will load after the dispatch
   }
 }

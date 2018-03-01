@@ -11,7 +11,7 @@ import { PizzasService } from '../../services/pizzas.service';
 import { Topping } from '../../models/topping.model';
 // import { ToppingsService } from '../../services/toppings.service';
 import { Observable } from 'rxjs/Observable';
-
+import {tap} from 'rxjs/operators';
 @Component({
   selector: 'product-item',
   styleUrls: ['product-item.component.scss'],
@@ -26,7 +26,7 @@ import { Observable } from 'rxjs/Observable';
         (update)="onUpdate($event)"
         (remove)="onRemove($event)">
         <pizza-display
-          [pizza]="visualise">
+          [pizza]="visualise$ | async">
         </pizza-display>
       </pizza-form>
     </div>
@@ -35,7 +35,7 @@ import { Observable } from 'rxjs/Observable';
 // router state and entity composition - take a look at the observable pizza | async
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza>;
-  visualise: Pizza;
+  visualise$: Observable<Pizza>;
   toppings$: Observable<Topping[]>;
 
   constructor(
@@ -48,8 +48,16 @@ export class ProductItemComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new fromStore.LoadToppings()); //the toppings will load after the dispatch
-    this.pizza$ = this.store.select(fromStore.getSelectedPizza);
+    this.pizza$ = this.store.select(fromStore.getSelectedPizza).pipe(
+      tap((pizza: Pizza = null)=>{
+        //'products/1'
+        const pizzaExists = !!(pizza && pizza.toppings);
+        const toppings = pizzaExists? pizza.toppings.map(topping=>topping.id) : [];
+        this.store.dispatch(new fromStore.VisualiseToppings(toppings));
+      })
+    );
     this.toppings$ = this.store.select(fromStore.getAllToppings);
+    this.visualise$ = this.store.select(fromStore.getPizzaVisualised);
     // this.pizzaService.getPizzas().subscribe(pizzas => {
     //   const param = this.route.snapshot.params.id;
     //   let pizza;
@@ -67,6 +75,8 @@ export class ProductItemComponent implements OnInit {
   }
 
   onSelect(event: number[]) {
+    console.log('onselect:::',event);
+    this.store.dispatch(new fromStore.VisualiseToppings(event));
     // let toppings;
     // if (this.toppings && this.toppings.length) {
     //   toppings = event.map(id =>
