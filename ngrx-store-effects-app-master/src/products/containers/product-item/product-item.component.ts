@@ -19,8 +19,8 @@ import { Observable } from 'rxjs/Observable';
     <div 
       class="product-item">
       <pizza-form
-        [pizza]="pizza | async"
-        [toppings]="toppings"
+        [pizza]="pizza$ | async"
+        [toppings]="toppings$ | async"
         (selected)="onSelect($event)"
         (create)="onCreate($event)"
         (update)="onUpdate($event)"
@@ -36,7 +36,7 @@ import { Observable } from 'rxjs/Observable';
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza>;
   visualise: Pizza;
-  toppings: Topping[];
+  toppings$: Observable<Topping[]>;
 
   constructor(
     // private pizzaService: PizzasService,
@@ -49,6 +49,7 @@ export class ProductItemComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new fromStore.LoadToppings()); //the toppings will load after the dispatch
     this.pizza$ = this.store.select(fromStore.getSelectedPizza);
+    this.toppings$ = this.store.select(fromStore.getAllToppings);
     // this.pizzaService.getPizzas().subscribe(pizzas => {
     //   const param = this.route.snapshot.params.id;
     //   let pizza;
