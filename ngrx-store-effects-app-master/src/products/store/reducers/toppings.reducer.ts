@@ -15,7 +15,7 @@ export const initialState: ToppingsState = {
 }
 
 export function reducer(
-    state: initialState,
+    state = initialState,
     action: fromToppings.ToppingsAction
 ): ToppingsState{
 
