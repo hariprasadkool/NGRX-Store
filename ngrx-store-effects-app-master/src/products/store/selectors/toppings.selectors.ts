@@ -22,6 +22,10 @@ export const getAllToppings  = createSelector(
     }
 )
 
+export const getSelectedToppings = createSelector(
+    getToppingsState,
+    fromToppings.getSelectedToppings
+)
 export const getToppingsLoaded = createSelector(
     getToppingsState,
     fromToppings.getToppingsLoaded
