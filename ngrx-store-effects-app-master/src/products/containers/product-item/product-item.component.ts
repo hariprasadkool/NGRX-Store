@@ -47,6 +47,7 @@ export class ProductItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.store.dispatch(new fromStore.LoadToppings()); //the toppings will load after the dispatch
     this.pizza$ = this.store.select(fromStore.getSelectedPizza);
     // this.pizzaService.getPizzas().subscribe(pizzas => {
     //   const param = this.route.snapshot.params.id;
