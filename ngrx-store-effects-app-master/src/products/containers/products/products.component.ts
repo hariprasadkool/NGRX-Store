@@ -50,7 +50,7 @@ export class ProductsComponent implements OnInit {
       console.log(state);
     });
    // this.store.dispatch(new fromStore.LoadPizza() );
-    this.store.dispatch(new fromStore.LoadToppings() )
+   // this.store.dispatch(new fromStore.LoadToppings() )
     //the pizzas will load after the dispatch
   }
 }
